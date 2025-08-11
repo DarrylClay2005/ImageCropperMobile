@@ -149,7 +149,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                       ),
                       const SizedBox(height: 10),
                       const Text(
-                        'V1.0.4 - Professional Edition',
+                        'V1.0.4.b - Enhanced Export Edition',
                         style: TextStyle(
                           fontSize: 16,
                           color: Color(0xFF00D4FF),
@@ -439,13 +439,190 @@ class _ImageCropperHomeState extends State<ImageCropperHome> with TickerProvider
     return (x * x + y * y) <= 1.0;
   }
 
-  Future<void> _exportImageWithCustomSettings() async {
+  Future<void> _selectSaveDirectory() async {
+    try {
+      final result = await FilePicker.platform.getDirectoryPath(
+        dialogTitle: 'Choose Export Directory',
+        lockParentWindow: true,
+      );
+      
+      if (result != null) {
+        setState(() {
+          _customSaveDirectory = result;
+        });
+        
+        _showSuccessSnackBar('Export directory set: ${result.split('/').last}');
+      }
+    } catch (e) {
+      _showErrorSnackBar('Error selecting directory: $e');
+    }
+  }
+
+  Future<void> _showExportOptionsDialog() async {
+    if (_croppedImage == null) return;
+
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: const Color(0xFF1A1A1A),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          title: Row(
+            children: const [
+              Icon(Icons.save_alt, color: Color(0xFF00D4FF)),
+              SizedBox(width: 12),
+              Text(
+                'Export Options',
+                style: TextStyle(color: Color(0xFF00D4FF)),
+              ),
+            ],
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text(
+                'Choose how you want to export your cropped image:',
+                style: TextStyle(color: Colors.white70),
+              ),
+              const SizedBox(height: 20),
+              
+              // Quick Export Button
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  gradient: const LinearGradient(
+                    colors: [Color(0xFF00D4FF), Color(0xFF0099CC)],
+                  ),
+                ),
+                child: ElevatedButton.icon(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    _exportImageToDefault();
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.transparent,
+                    elevation: 0,
+                    padding: const EdgeInsets.all(16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  icon: const Icon(Icons.flash_on, color: Colors.white),
+                  label: const Text(
+                    'Quick Export',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ),
+              
+              const SizedBox(height: 12),
+              Text(
+                'Export to default directory',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 12,
+                  color: Colors.grey[400],
+                ),
+              ),
+              
+              const SizedBox(height: 20),
+              
+              // Custom Location Button
+              OutlinedButton.icon(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  _exportImageWithLocationPicker();
+                },
+                style: OutlinedButton.styleFrom(
+                  padding: const EdgeInsets.all(16),
+                  side: const BorderSide(color: Color(0xFF00D4FF), width: 2),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                icon: const Icon(Icons.folder_outlined, color: Color(0xFF00D4FF)),
+                label: const Text(
+                  'Choose Location',
+                  style: TextStyle(
+                    color: Color(0xFF00D4FF),
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+              
+              const SizedBox(height: 8),
+              Text(
+                'Pick a custom directory for export',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 12,
+                  color: Colors.grey[400],
+                ),
+              ),
+              
+              if (_customSaveDirectory != null) ..[
+                const SizedBox(height: 16),
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF2A2A2A),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Current Export Directory:',
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.grey[400],
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        _customSaveDirectory!.split('/').last,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: Color(0xFF00D4FF),
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text(
+                'Cancel',
+                style: TextStyle(color: Colors.grey),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _exportImageToDefault() async {
     if (_croppedImage == null) return;
 
     try {
-      final saveDirectory = _customSaveDirectory ?? _exportPath;
+      final saveDirectory = _exportPath;
       if (saveDirectory == null) {
-        _showErrorSnackBar('No save directory available');
+        _showErrorSnackBar('No default directory available');
         return;
       }
       
@@ -456,7 +633,38 @@ class _ImageCropperHomeState extends State<ImageCropperHome> with TickerProvider
       
       await _croppedImage!.copy(exportFile.path);
       
-      _showSuccessSnackBar('Image exported successfully!\n${exportFile.path}');
+      _showSuccessSnackBar('Image exported successfully!\nSaved to: Image Crop Exports');
+    } catch (e) {
+      _showErrorSnackBar('Export failed: $e');
+    }
+  }
+
+  Future<void> _exportImageWithLocationPicker() async {
+    if (_croppedImage == null) return;
+
+    try {
+      // First, let user pick a directory
+      final result = await FilePicker.platform.getDirectoryPath(
+        dialogTitle: 'Choose Export Directory',
+        lockParentWindow: true,
+      );
+      
+      if (result != null) {
+        // Update the custom save directory
+        setState(() {
+          _customSaveDirectory = result;
+        });
+        
+        // Now export to the selected directory
+        final timestamp = DateTime.now().millisecondsSinceEpoch;
+        final templateSuffix = _selectedTemplate?.name ?? _selectedShape.name;
+        final fileName = 'cropped_${templateSuffix}_$timestamp.png';
+        final exportFile = File('$result/$fileName');
+        
+        await _croppedImage!.copy(exportFile.path);
+        
+        _showSuccessSnackBar('Image exported successfully!\nSaved to: ${result.split('/').last}');
+      }
     } catch (e) {
       _showErrorSnackBar('Export failed: $e');
     }
@@ -1119,7 +1327,7 @@ class _ImageCropperHomeState extends State<ImageCropperHome> with TickerProvider
                 ),
               ),
               child: ElevatedButton.icon(
-                onPressed: _exportImageWithCustomSettings,
+                onPressed: _showExportOptionsDialog,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.transparent,
                   elevation: 0,
