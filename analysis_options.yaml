@@ -1,0 +1,29 @@
+include: package:flutter_lints/flutter.yaml
+
+linter:
+  rules:
+    prefer_single_quotes: true
+    prefer_const_constructors: true
+    prefer_const_literals_to_create_immutables: true
+    prefer_final_fields: true
+    unnecessary_new: true
+    unnecessary_const: true
+    unnecessary_this: true
+    avoid_empty_else: true
+    avoid_relative_lib_imports: true
+    avoid_types_as_parameter_names: true
+    camel_case_types: true
+    empty_catches: true
+    library_names: true
+    library_prefixes: true
+    non_constant_identifier_names: true
+    prefer_is_not_empty: true
+    slash_for_doc_comments: true
+    type_init_formals: true
+    unawaited_futures: true
+    valid_regexps: true
+
+analyzer:
+  exclude:
+    - "**/*.g.dart"
+    - "**/*.freezed.dart"
