@@ -569,7 +569,7 @@ class _ImageCropperHomeState extends State<ImageCropperHome> with TickerProvider
                 ),
               ),
               
-              if (_customSaveDirectory != null) ..[
+              if (_customSaveDirectory != null) ...[
                 const SizedBox(height: 16),
                 Container(
                   padding: const EdgeInsets.all(12),
