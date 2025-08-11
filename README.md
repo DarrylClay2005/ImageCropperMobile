@@ -10,7 +10,7 @@
 [![Platform](https://img.shields.io/badge/platform-Android-green?style=for-the-badge)](https://android.com)
 [![Flutter](https://img.shields.io/badge/Flutter-3.10+-blue?style=for-the-badge)](https://flutter.dev)
 [![License](https://img.shields.io/badge/license-MIT-blue?style=for-the-badge)](LICENSE)
-[![Version](https://img.shields.io/badge/version-1.0.0-orange?style=for-the-badge)](#)
+[![Version](https://img.shields.io/badge/version-1.0.2-orange?style=for-the-badge)](#)
 
 </div>
 
@@ -78,10 +78,11 @@
 git clone https://github.com/DarrylClay2005/Image-Cropper-Mobile.git
 # ImageCropperMobile 📸✂️
 
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/DarrylClay2005/ImageCropperMobile)
-![GitHub](https://img.shields.io/github/license/DarrylClay2005/ImageCropperMobile)
-![Flutter](https://img.shields.io/badge/Flutter-3.24.3-blue.svg)
-![Android](https://img.shields.io/badge/Android-5.0%2B-green.svg)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/DarrylClay2005/ImageCropperMobile?style=for-the-badge)
+![GitHub](https://img.shields.io/github/license/DarrylClay2005/ImageCropperMobile?style=for-the-badge)
+![Flutter](https://img.shields.io/badge/Flutter-3.24.3-blue.svg?style=for-the-badge)
+![Android](https://img.shields.io/badge/Android-5.0%2B-green.svg?style=for-the-badge)
+![GitHub Downloads](https://img.shields.io/github/downloads/DarrylClay2005/ImageCropperMobile/total?style=for-the-badge)
 flutter pub get
 flutter build apk --release
 ```
