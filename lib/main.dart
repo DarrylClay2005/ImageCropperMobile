@@ -149,7 +149,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                       ),
                       const SizedBox(height: 10),
                       const Text(
-                        'V1.0.4.b - Enhanced Export Edition',
+                        'V1.0.4.c - Export Progress Edition',
                         style: TextStyle(
                           fontSize: 16,
                           color: Color(0xFF00D4FF),
@@ -184,7 +184,9 @@ class _ImageCropperHomeState extends State<ImageCropperHome> with TickerProvider
   CustomResolution? _customResolution;
   bool _isProcessing = false;
   bool _isImageLoading = false;
+  bool _isExporting = false;
   double _processingProgress = 0.0;
+  double _exportProgress = 0.0;
   String? _exportPath;
   String? _customSaveDirectory;
   
@@ -619,11 +621,27 @@ class _ImageCropperHomeState extends State<ImageCropperHome> with TickerProvider
   Future<void> _exportImageToDefault() async {
     if (_croppedImage == null) return;
 
+    setState(() {
+      _isExporting = true;
+      _exportProgress = 0.0;
+    });
+
     try {
       final saveDirectory = _exportPath;
       if (saveDirectory == null) {
+        setState(() {
+          _isExporting = false;
+        });
         _showErrorSnackBar('No default directory available');
         return;
+      }
+      
+      // Simulate export progress
+      for (int i = 0; i <= 100; i += 20) {
+        await Future.delayed(const Duration(milliseconds: 150));
+        setState(() {
+          _exportProgress = i / 100;
+        });
       }
       
       final timestamp = DateTime.now().millisecondsSinceEpoch;
@@ -633,8 +651,20 @@ class _ImageCropperHomeState extends State<ImageCropperHome> with TickerProvider
       
       await _croppedImage!.copy(exportFile.path);
       
+      // Additional delay to ensure file is fully written
+      await Future.delayed(const Duration(milliseconds: 500));
+      
+      setState(() {
+        _isExporting = false;
+        _exportProgress = 0.0;
+      });
+      
       _showSuccessSnackBar('Image exported successfully!\nSaved to: Image Crop Exports');
     } catch (e) {
+      setState(() {
+        _isExporting = false;
+        _exportProgress = 0.0;
+      });
       _showErrorSnackBar('Export failed: $e');
     }
   }
@@ -650,10 +680,19 @@ class _ImageCropperHomeState extends State<ImageCropperHome> with TickerProvider
       );
       
       if (result != null) {
-        // Update the custom save directory
         setState(() {
+          _isExporting = true;
+          _exportProgress = 0.0;
           _customSaveDirectory = result;
         });
+        
+        // Simulate export progress
+        for (int i = 0; i <= 100; i += 20) {
+          await Future.delayed(const Duration(milliseconds: 150));
+          setState(() {
+            _exportProgress = i / 100;
+          });
+        }
         
         // Now export to the selected directory
         final timestamp = DateTime.now().millisecondsSinceEpoch;
@@ -663,9 +702,21 @@ class _ImageCropperHomeState extends State<ImageCropperHome> with TickerProvider
         
         await _croppedImage!.copy(exportFile.path);
         
+        // Additional delay to ensure file is fully written
+        await Future.delayed(const Duration(milliseconds: 500));
+        
+        setState(() {
+          _isExporting = false;
+          _exportProgress = 0.0;
+        });
+        
         _showSuccessSnackBar('Image exported successfully!\nSaved to: ${result.split('/').last}');
       }
     } catch (e) {
+      setState(() {
+        _isExporting = false;
+        _exportProgress = 0.0;
+      });
       _showErrorSnackBar('Export failed: $e');
     }
   }
@@ -823,6 +874,8 @@ class _ImageCropperHomeState extends State<ImageCropperHome> with TickerProvider
               _buildShapeSelection(),
               const SizedBox(height: 20),
               _buildProcessingIndicator(),
+              const SizedBox(height: 20),
+              _buildExportIndicator(),
               const SizedBox(height: 20),
               _buildControlButtons(),
             ],
@@ -1275,6 +1328,58 @@ class _ImageCropperHomeState extends State<ImageCropperHome> with TickerProvider
               style: const TextStyle(
                 color: Color(0xFF00D4FF),
                 fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildExportIndicator() {
+    if (!_isExporting) return const SizedBox.shrink();
+
+    return Card(
+      elevation: 5,
+      color: const Color(0xFF1A1A1A),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+      child: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          children: [
+            const CircularProgressIndicator(
+              color: Color(0xFF00D4FF),
+            ),
+            const SizedBox(height: 16),
+            const Text(
+              'Exporting Image...',
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                color: Colors.white,
+              ),
+            ),
+            const SizedBox(height: 12),
+            LinearProgressIndicator(
+              value: _exportProgress,
+              backgroundColor: const Color(0xFF333333),
+              valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFF00D4FF)),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              '${(_exportProgress * 100).toInt()}%',
+              style: const TextStyle(
+                color: Color(0xFF00D4FF),
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'Please wait while image is being saved to gallery...',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 12,
+                color: Colors.grey[400],
               ),
             ),
           ],

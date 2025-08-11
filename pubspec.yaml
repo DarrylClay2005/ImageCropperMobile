@@ -1,6 +1,6 @@
 name: image_cropper_mobile
 description: Professional Image Cropping Tool for Android - Crop images into beautiful shapes
-version: 1.0.4+6
+version: 1.0.4+7
 publish_to: 'none'
 
 environment:
