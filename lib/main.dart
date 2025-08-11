@@ -1,50 +1,66 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
-import 'screens/splash_screen.dart';
-import 'screens/home_screen.dart';
-import 'services/image_service.dart';
-import 'utils/app_theme.dart';
 
 void main() {
-  WidgetsFlutterBinding.ensureInitialized();
-  
-  // Set preferred orientations
-  SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp,
-    DeviceOrientation.portraitDown,
-  ]);
-  
-  // Set system UI overlay style
-  SystemChrome.setSystemUIOverlayStyle(
-    const SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
-      statusBarIconBrightness: Brightness.light,
-      systemNavigationBarColor: Color(0xFF1a1a2e),
-      systemNavigationBarIconBrightness: Brightness.light,
-    ),
-  );
-
-  runApp(const ImageCropperApp());
+  runApp(MyApp());
 }
 
-class ImageCropperApp extends StatelessWidget {
-  const ImageCropperApp({super.key});
-
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (context) => ImageService()),
-      ],
-      child: MaterialApp(
-        title: 'Image Shape Cropper',
-        debugShowCheckedModeBanner: false,
-        theme: AppTheme.darkTheme,
-        home: const SplashScreen(),
-        routes: {
-          '/home': (context) => const HomeScreen(),
-        },
+    return MaterialApp(
+      title: 'Image Cropper Mobile',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: MyHomePage(),
+    );
+  }
+}
+
+class MyHomePage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Image Cropper Mobile V1.0.0'),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Icon(
+              Icons.crop_original,
+              size: 100,
+              color: Colors.blue,
+            ),
+            SizedBox(height: 20),
+            Text(
+              'Welcome to Image Cropper Mobile',
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(height: 10),
+            Text(
+              'Version 1.0.0',
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.grey,
+              ),
+            ),
+            SizedBox(height: 30),
+            ElevatedButton(
+              onPressed: () {
+                // TODO: Implement image cropping functionality
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Image cropping feature coming soon!')),
+                );
+              },
+              child: Text('Start Cropping'),
+            ),
+          ],
+        ),
       ),
     );
   }

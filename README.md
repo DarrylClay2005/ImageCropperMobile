@@ -76,7 +76,12 @@
 #### Option 2: Build from Source
 ```bash
 git clone https://github.com/DarrylClay2005/Image-Cropper-Mobile.git
-cd Image-Cropper-Mobile
+# ImageCropperMobile 📸✂️
+
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/DarrylClay2005/ImageCropperMobile)
+![GitHub](https://img.shields.io/github/license/DarrylClay2005/ImageCropperMobile)
+![Flutter](https://img.shields.io/badge/Flutter-3.24.3-blue.svg)
+![Android](https://img.shields.io/badge/Android-5.0%2B-green.svg)
 flutter pub get
 flutter build apk --release
 ```

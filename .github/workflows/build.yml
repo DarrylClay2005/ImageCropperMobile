@@ -1,0 +1,116 @@
+name: Build and Release ImageCropperMobile
+
+on:
+  push:
+    branches: [ master, main ]
+    tags:
+      - 'v*.*.*'
+  pull_request:
+    branches: [ master, main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Setup Java
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'temurin'
+        java-version: '17'
+
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.24.3'
+        channel: 'stable'
+
+    - name: Flutter doctor
+      run: flutter doctor -v
+
+    - name: Get dependencies
+      run: flutter pub get
+
+    - name: Run tests
+      run: flutter test
+
+    - name: Build APK
+      run: flutter build apk --release
+
+    - name: Upload APK as artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: app-release-apk
+        path: build/app/outputs/flutter-apk/app-release.apk
+
+  release:
+    if: startsWith(github.ref, 'refs/tags/')
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Setup Java
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'temurin'
+        java-version: '17'
+
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.24.3'
+        channel: 'stable'
+
+    - name: Get dependencies
+      run: flutter pub get
+
+    - name: Build APK
+      run: flutter build apk --release
+
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref_name }}
+        release_name: ImageCropperMobile ${{ github.ref_name }}
+        draft: false
+        prerelease: false
+        body: |
+          ## ImageCropperMobile ${{ github.ref_name }} 🎉
+
+          ### What's New
+          - Professional image cropping functionality
+          - Multiple crop shapes support
+          - Android native performance
+          - Modern Material Design UI
+
+          ### Downloads
+          - Download the APK below for Android devices
+          - Minimum Android version: 5.0 (API 21)
+
+          ### Installation
+          1. Download the APK file
+          2. Enable "Install from unknown sources" on your Android device
+          3. Install the APK
+          4. Start cropping images!
+
+          ---
+          Built with Flutter 💙
+
+    - name: Upload APK to Release
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: build/app/outputs/flutter-apk/app-release.apk
+        asset_name: ImageCropperMobile-${{ github.ref_name }}-release.apk
+        asset_content_type: application/vnd.android.package-archive
