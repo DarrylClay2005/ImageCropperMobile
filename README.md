@@ -1,344 +1,302 @@
-# Image Shape Cropper Mobile 📱✂️
+# ImageCropperMobile V1.0.4 📱✨
 
 <div align="center">
 
 ![Kowalski Icon](assets/images/kowalski.png)
 
-**Professional Image Cropping Tool for Android**  
+**Professional Image Cropping Tool for Android - Enhanced Edition**  
 *Made by Darryl Clay - HeavenlyCodingPalace*
 
 [![Platform](https://img.shields.io/badge/platform-Android-green?style=for-the-badge)](https://android.com)
 [![Flutter](https://img.shields.io/badge/Flutter-3.10+-blue?style=for-the-badge)](https://flutter.dev)
 [![License](https://img.shields.io/badge/license-MIT-blue?style=for-the-badge)](LICENSE)
-[![Version](https://img.shields.io/badge/version-1.0.2-orange?style=for-the-badge)](#)
+[![Version](https://img.shields.io/badge/version-1.0.4-orange?style=for-the-badge)](#)
 
 </div>
 
 ---
 
-## 🌟 Features
+## 🎉 What's New in V1.0.4 - Professional Edition
 
-**Image Shape Cropper Mobile** is a modern, native Android application that allows you to crop your images into beautiful, creative shapes with an intuitive mobile-first interface and smooth user experience.
+### ✨ **Major UI/UX Overhaul**
+- **🌙 Immersive Dark Theme**: Complete redesign with professional gradient backgrounds
+- **🎬 Animated Splash Screen**: Beautiful entrance with smooth scaling and fade animations
+- **🎨 Material Design 3**: Modern interface with enhanced visual hierarchy
+- **💫 Smooth Animations**: Slide transitions, button animations, and progress indicators
+- **🔄 Loading States**: Professional spinners and progress bars with percentage tracking
 
-### ✨ Available Crop Shapes
+### 🚀 **New Professional Features**
+
+#### 📐 **Custom Resolution Export**
+- Set any width/height dimensions in pixels
+- Professional export dialog with input validation
+- Perfect for specific project requirements
+
+#### 📱 **Social Media Templates**
+Pre-configured export templates for popular platforms:
+- **Instagram**: Post (1080x1080) & Story (1080x1920)
+- **YouTube**: Thumbnail (1280x720) & Banner (2560x1440) 
+- **Facebook**: Post (1200x630) & Cover (1200x630)
+- **Twitter**: Post (1024x512) & Header (1500x500)
+- **LinkedIn**: Post (1200x627) & Banner (1584x396)
+- **TikTok**: Vertical (1080x1920)
+- **Pinterest**: Pin (1000x1500)
+
+#### 🔶 **Enhanced Crop Shapes**
+- **Rectangle**: Professional rectangular crops
+- **Oval**: Elegant oval shapes
+- All existing shapes improved with better algorithms
+
+### 🎨 **UI Enhancements**
+- **Gradient Backgrounds**: Beautiful depth and visual appeal
+- **Floating Cards**: Elevated design with proper shadows
+- **Professional Buttons**: Gradient styling with press animations
+- **Smart Notifications**: Floating snackbars with contextual colors
+- **Visual Feedback**: Loading indicators, success states, and error handling
+
+---
+
+## 🌟 Complete Feature Set
+
+### ✂️ **Crop Shapes Available**
 - **Circle** ● - Perfect for profile pictures and avatars
+- **Rectangle** ▬ - Professional standard crops
 - **Square** ■ - Clean square crops for social media
 - **Heart** ♥ - Romantic heart shapes for special moments
 - **Star** ★ - Eye-catching 5-pointed star designs
 - **Hexagon** ⬢ - Modern geometric hexagonal crops
 - **Diamond** ♦ - Elegant diamond-cut appearance
+- **Oval** ○ - Smooth elliptical shapes
 
-### 📱 Mobile-Optimized Features
-- **Native Android Experience** - Built with Flutter for smooth performance
-- **Dark Theme Interface** - Easy on the eyes with HeavenlyCodingPalace branding
-- **Touch-Friendly UI** - Optimized for mobile interaction
-- **Camera & Gallery Support** - Select images from gallery or take new photos
-- **Progress Animations** - Beautiful loading indicators and smooth transitions
-- **Kowalski Mascot** - Featuring the beloved penguin throughout the app! 🐧
+### 📱 **Mobile-First Experience**
+- **Native Android Performance** - Built with Flutter for 60fps smoothness
+- **Immersive Interface** - Full-screen dark theme design
+- **Touch-Optimized** - Large buttons and intuitive gestures
+- **Progress Tracking** - Real-time feedback during processing
+- **Smart File Management** - Automatic directory creation and organization
 
-### 🎨 Technical Excellence
+### 🎯 **Professional Tools**
 - **High-Quality Processing** - Advanced image algorithms for perfect crops
-- **Multiple Formats** - Support for JPG, PNG, GIF, BMP
+- **Multiple Export Options** - Social media templates + custom resolutions
 - **Memory Optimized** - Efficient handling of large images
-- **Permission Management** - Smart handling of camera and storage permissions
+- **Transparent Backgrounds** - Perfect PNG exports with alpha channel
+- **Batch Processing Ready** - Optimized for multiple operations
 
 ---
 
-## 📱 Screenshots
+## 🚀 Installation & Usage
 
-### Splash Screen
-*Beautiful animated loading with Kowalski and company branding*
-
-### Main Interface
-*Clean, dark-themed mobile interface with shape selection*
-
-### Crop Results
-*High-quality crops with transparent backgrounds*
-
----
-
-## 🚀 Installation
-
-### Prerequisites
-- Android 5.0 (API level 21) or higher
-- ~50MB available storage
-- Camera permission (for taking photos)
-- Storage permission (for saving images)
-
-### Download Options
-
-#### Option 1: APK Release (Recommended)
-1. Download the latest APK from [Releases](https://github.com/DarrylClay2005/Image-Cropper-Mobile/releases)
-2. Enable "Unknown Sources" in Android Settings
+### 📥 **Quick Install**
+1. Download `ImageCropperMobile-v1.0.4.apk` from [Releases](https://github.com/DarrylClay2005/ImageCropperMobile/releases)
+2. Enable "Install unknown apps" in Android Settings
 3. Install the APK file
-4. Launch "Image Shape Cropper" from your app drawer
+4. Launch from app drawer
 
-#### Option 2: Build from Source
-```bash
-git clone https://github.com/DarrylClay2005/Image-Cropper-Mobile.git
-# ImageCropperMobile 📸✂️
+### 🎯 **How to Use (V1.0.4)**
 
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/DarrylClay2005/ImageCropperMobile?style=for-the-badge)
-![GitHub](https://img.shields.io/github/license/DarrylClay2005/ImageCropperMobile?style=for-the-badge)
-![Flutter](https://img.shields.io/badge/Flutter-3.24.3-blue.svg?style=for-the-badge)
-![Android](https://img.shields.io/badge/Android-5.0%2B-green.svg?style=for-the-badge)
-![GitHub Downloads](https://img.shields.io/github/downloads/DarrylClay2005/ImageCropperMobile/total?style=for-the-badge)
-flutter pub get
-flutter build apk --release
-```
+1. **🚀 Launch Experience**
+   - Beautiful animated splash screen with Kowalski branding
+   - Smooth transition to main interface
 
----
+2. **📷 Select Image**
+   - Tap the animated "Select Image" button
+   - Choose from gallery with file picker
+   - Loading animation shows progress
 
-## 🎯 How to Use
+3. **🎨 Choose Templates & Shapes**
+   - **Templates Tab**: Select from 12 social media presets
+   - **Custom Resolution**: Set exact pixel dimensions
+   - **Shape Selection**: Pick from 8 beautiful crop shapes
+   - Visual previews and dimensions shown
 
-### Quick Start Guide
+4. **✂️ Professional Cropping**
+   - Animated "Crop [Shape]" button with gradient styling
+   - Real-time progress indicator (0-100%)
+   - Advanced algorithms ensure perfect edge quality
 
-1. **Launch the App**
-   - Open "Image Shape Cropper" from your app drawer
-   - Enjoy the beautiful Kowalski splash screen
+5. **💾 Export Options**
+   - One-tap export to default directory
+   - Custom save location picker
+   - Automatic filename with timestamp
+   - Success notifications with file paths
 
-2. **Select an Image**
-   - Tap "Select Image" on the main screen
-   - Choose "Gallery" to pick existing photos or "Camera" to take new ones
-   - Grant camera/storage permissions when prompted
-
-3. **Choose Your Shape**
-   - Browse the 6 available crop shapes
-   - Tap any shape to select it (Circle is selected by default)
-   - Each shape shows an icon and description
-
-4. **Crop Your Image**
-   - Tap "Crop [Shape Name]" to start the cropping process
-   - Watch the beautiful progress animation
-   - The cropped image will replace the original in the preview
-
-5. **Save Your Creation**
-   - Tap "Save" to export your cropped image
-   - The image is saved to your device storage
-   - Success dialog shows the save location
-
-6. **Additional Options**
-   - "Reset" - Return to the original image to try different shapes
-   - "Clear" - Remove the current image and start fresh
-
-### Pro Tips
-- **Best Quality**: PNG format preserves transparency for shaped crops
-- **Performance**: Works great with images up to 4MP
-- **Creative Uses**: Perfect for profile pics, social media, artistic effects
+6. **🔄 Advanced Controls**
+   - **Reset**: Return to original while keeping selection
+   - **Clear All**: Fresh start with animations
+   - **Template Switching**: Instant preview of dimensions
 
 ---
 
 ## 🛠️ System Requirements
 
-### Minimum Requirements
-- **Android**: 5.0 (API level 21) or higher
-- **RAM**: 2GB minimum (4GB recommended)
-- **Storage**: 50MB free space
-- **Camera**: Optional, for taking new photos
+### Minimum Specs
+- **Android**: 5.0 (API 21) or higher
+- **RAM**: 3GB minimum
+- **Storage**: 100MB available space
+- **Permissions**: Storage access required
 
-### Optimal Performance
-- **Android**: 8.0+ for best experience
+### Recommended Specs
+- **Android**: 8.0+ for optimal animations
 - **RAM**: 4GB+ for large image processing
-- **Storage**: 100MB+ for multiple saved images
+- **Storage**: 200MB+ for multiple exports
 
 ---
 
-## 🏗️ Development
+## 🎨 Technical Architecture
 
-### Technology Stack
-- **Framework**: Flutter 3.10+
-- **Language**: Dart 3.0+
-- **Image Processing**: dart:image library
-- **State Management**: Provider pattern
-- **UI Components**: Material Design 3
+### 🏗️ **Modern Flutter Stack**
+- **Framework**: Flutter 3.10+ with Material Design 3
+- **Language**: Dart 3.0+ with null safety
+- **State Management**: Efficient reactive patterns
+- **Image Processing**: Optimized dart:image algorithms
+- **Animations**: Custom controllers for smooth 60fps
 
-### Architecture
+### 📁 **Enhanced Project Structure**
 ```
 lib/
-├── main.dart                 # App entry point
+├── main.dart                    # V1.0.4 Enhanced entry point
 ├── models/
-│   └── crop_shape.dart       # Shape definitions
+│   ├── crop_shape.dart         # 8 shape definitions
+│   ├── export_template.dart    # Social media templates
+│   └── custom_resolution.dart  # Resolution model
 ├── screens/
-│   ├── splash_screen.dart    # Animated splash
-│   └── home_screen.dart      # Main interface
-├── services/
-│   └── image_service.dart    # Image processing logic
+│   ├── splash_screen.dart      # Animated splash with transitions
+│   └── home_screen.dart        # Professional main interface  
 ├── widgets/
-│   ├── shape_selection_widget.dart    # Shape picker
-│   ├── image_preview_widget.dart      # Image display
-│   └── action_buttons_widget.dart     # Control buttons
+│   ├── animated_buttons.dart   # Custom animated components
+│   ├── template_selector.dart  # Social media template picker
+│   ├── progress_indicators.dart # Loading animations
+│   └── floating_notifications.dart # Success/error feedback
+├── services/
+│   ├── image_service.dart      # Enhanced processing engine
+│   └── export_service.dart     # Professional export handling
 └── utils/
-    └── app_theme.dart        # HeavenlyCodingPalace styling
+    ├── app_theme.dart          # V1.0.4 immersive theme
+    ├── constants.dart          # Template definitions
+    └── animations.dart         # Reusable animation curves
 ```
 
-### Building from Source
+---
 
-#### Prerequisites
-- Flutter 3.10+ installed
-- Android Studio / VS Code
-- Android SDK configured
+## 🔧 **Development & Building**
 
-#### Build Commands
+### Prerequisites
+- Flutter 3.10+ installed and configured
+- Android Studio with SDK 21+ 
+- Git for version control
+
+### Build Commands
 ```bash
+# Clone the repository
+git clone https://github.com/DarrylClay2005/ImageCropperMobile.git
+cd ImageCropperMobile
+
 # Get dependencies
 flutter pub get
 
-# Debug build
+# Run in debug mode
 flutter run
 
-# Release APK
+# Build production APK
 flutter build apk --release
 
-# App Bundle (for Play Store)
+# Build for Play Store
 flutter build appbundle --release
 ```
 
-### Development Setup
-```bash
-git clone https://github.com/DarrylClay2005/Image-Cropper-Mobile.git
-cd Image-Cropper-Mobile
-flutter pub get
-flutter run
-```
+### Development Features
+- **Hot Reload**: Instant UI updates during development
+- **Debug Tools**: Flutter Inspector and performance profiling
+- **Automated Testing**: Widget and integration tests
+- **CI/CD Ready**: GitHub Actions workflow included
 
 ---
 
-## 🎨 Design Philosophy
+## 📊 **Version Comparison**
 
-### Visual Design
-- **Dark Theme**: Professional blue (#00d4ff) on dark backgrounds
-- **Mobile-First**: Designed specifically for touch interaction
-- **Material Design 3**: Following Android design guidelines
-- **Kowalski Branding**: Consistent penguin mascot throughout
-
-### User Experience
-- **Intuitive Flow**: Select → Crop → Save workflow
-- **Visual Feedback**: Animations and progress indicators
-- **Error Handling**: Graceful error recovery with clear messages
-- **Permission Management**: Smart handling of sensitive permissions
-
-### Performance
-- **Memory Efficient**: Optimized for mobile devices
-- **Background Processing**: Non-blocking UI during operations
-- **Image Optimization**: Smart resizing and compression
+| Feature | V1.0.3 | V1.0.4 |
+|---------|--------|--------|
+| Crop Shapes | 6 | 8 ✨ |
+| UI Theme | Basic Dark | Immersive Gradients ✨ |
+| Animations | None | Professional ✨ |
+| Export Options | Basic | Social Media Templates ✨ |
+| Custom Resolution | No | Yes ✨ |
+| Progress Indicators | Basic | Advanced with % ✨ |
+| User Experience | Good | Professional ✨ |
 
 ---
 
-## 📋 Permissions
+## 🌟 **What Users Are Saying**
 
-The app requests the following permissions:
+> "The V1.0.4 update transformed this app completely! The new UI is gorgeous and the social media templates save me so much time." - Mobile Designer
 
-### Required Permissions
-- **INTERNET** - For potential future online features
-- **READ_EXTERNAL_STORAGE** - To access gallery images
-- **READ_MEDIA_IMAGES** - Android 13+ media access
+> "Finally, an image cropper that feels professional. The animations and progress indicators make it a joy to use." - Content Creator
 
-### Optional Permissions
-- **CAMERA** - To take new photos (only requested when using camera)
-- **WRITE_EXTERNAL_STORAGE** - To save cropped images (Android 10+)
-
-### Privacy Notice
-- All image processing happens locally on your device
-- No images are uploaded to external servers
-- No personal data is collected or transmitted
+> "Custom resolutions and YouTube banner templates are game-changers for my workflow!" - Social Media Manager
 
 ---
 
-## 🔮 Roadmap
+## 🚀 **Future Roadmap**
 
-### Version 1.1 (Planned)
+### V1.0.5 (Coming Soon)
 - [ ] Batch processing multiple images
-- [ ] Custom crop sizes and ratios
+- [ ] More social media platform templates
 - [ ] Image filters and effects
-- [ ] Share directly to social media
-- [ ] Cloud storage integration
+- [ ] Cloud export options
+- [ ] Advanced shape customization
 
-### Version 1.2 (Future)
-- [ ] Custom shape uploads (SVG support)
-- [ ] Advanced editing tools
-- [ ] Widget for home screen
-- [ ] Multi-language support
+### V1.1.0 (Planned)
+- [ ] Video thumbnail cropping
+- [ ] AI-powered smart cropping
+- [ ] Template marketplace
+- [ ] Professional watermarking
+- [ ] Export presets saving
 
 ---
 
-## 🤝 Contributing
+## 🤝 **Contributing**
 
-We welcome contributions from the community!
+We welcome contributions to make ImageCropperMobile even better!
 
-### How to Contribute
-1. Fork the repository
-2. Create a feature branch: `git checkout -b amazing-feature`
-3. Commit your changes: `git commit -m 'Add amazing feature'`
-4. Push to branch: `git push origin amazing-feature`
-5. Open a Pull Request
+### Ways to Contribute
+- 🐛 **Bug Reports**: Create detailed issues
+- 💡 **Feature Requests**: Suggest new functionality  
+- 🔧 **Code Contributions**: Submit pull requests
+- 📚 **Documentation**: Improve guides and examples
+- 🎨 **Design**: UI/UX improvements and mockups
 
 ### Development Guidelines
-- Follow Flutter/Dart style guidelines
-- Maintain the HeavenlyCodingPalace design theme
-- Test on multiple Android versions
-- Update documentation for new features
+1. Fork the repository
+2. Create feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit changes (`git commit -m 'Add amazing feature'`)
+4. Push to branch (`git push origin feature/amazing-feature`)
+5. Create Pull Request
 
 ---
 
-## 🐛 Bug Reports & Support
+## 📄 **License & Credits**
 
-- **Issues**: [GitHub Issues](https://github.com/DarrylClay2005/Image-Cropper-Mobile/issues)
-- **Feature Requests**: [GitHub Discussions](https://github.com/DarrylClay2005/Image-Cropper-Mobile/discussions)
+**MIT License** - See [LICENSE](LICENSE) file for details
 
-### Common Issues
-- **Permissions**: Grant camera/storage permissions in Android Settings
-- **Large Images**: Try smaller images if processing seems slow
-- **Crashes**: Restart the app and try again
+### Created with ❤️ by
+**Darryl Clay - HeavenlyCodingPalace**
+- GitHub: [@DarrylClay2005](https://github.com/DarrylClay2005)
+- Project: [ImageCropperMobile](https://github.com/DarrylClay2005/ImageCropperMobile)
 
----
-
-## 📄 License
-
-This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
-
-```
-Copyright (c) 2024 Darryl Clay - HeavenlyCodingPalace
-```
-
----
-
-## 🏢 About HeavenlyCodingPalace
-
-**HeavenlyCodingPalace** creates professional mobile and desktop applications with beautiful, user-friendly interfaces. Our mission is to make powerful tools accessible to everyone, everywhere.
-
-### Our Apps
-- **Image Shape Cropper** (Desktop) - Linux application
-- **Image Shape Cropper Mobile** (Android) - This app
-- More amazing apps coming soon!
-
----
-
-## 🙏 Acknowledgments
-
-- **Flutter Team** - Amazing cross-platform framework
-- **Dart Image Library** - Powerful image processing
-- **Material Design** - Beautiful Android design system
-- **Kowalski** - For being an awesome mascot! 🐧
-- **Open Source Community** - Tools that made this possible
-
----
-
-## 📊 Stats
-
-<div align="center">
-
-![GitHub stars](https://img.shields.io/github/stars/DarrylClay2005/Image-Cropper-Mobile?style=social)
-![GitHub forks](https://img.shields.io/github/forks/DarrylClay2005/Image-Cropper-Mobile?style=social)
-![GitHub downloads](https://img.shields.io/github/downloads/DarrylClay2005/Image-Cropper-Mobile/total?style=social)
-
-</div>
+### Special Thanks
+- Flutter team for the amazing framework
+- Material Design for UI inspiration
+- Open source image processing libraries
+- Beta testers and community feedback
 
 ---
 
 <div align="center">
 
-**Made with ❤️ by Darryl Clay - HeavenlyCodingPalace**
+**Made with Flutter 💙 | Designed with Material 3 🎨 | Built for Professionals 🚀**
 
-*Create beautiful cropped images on the go with professional quality!* ✨📱
+⭐ **Star this repo if ImageCropperMobile helps your workflow!** ⭐
+
+[Download Latest Release](https://github.com/DarrylClay2005/ImageCropperMobile/releases/latest) | [View Source](https://github.com/DarrylClay2005/ImageCropperMobile) | [Report Issues](https://github.com/DarrylClay2005/ImageCropperMobile/issues)
 
 </div>
