@@ -43,6 +43,7 @@ class _ImageCropperHomeState extends State<ImageCropperHome> {
   CropShape _selectedShape = CropShape.circle;
   bool _isProcessing = false;
   String? _exportPath;
+  String? _customSaveDirectory;
 
   @override
   void initState() {
@@ -52,62 +53,51 @@ class _ImageCropperHomeState extends State<ImageCropperHome> {
 
   Future<void> _initializeExportFolder() async {
     try {
-      final status = await Permission.storage.request();
-      if (status.isGranted) {
-        await _createExportFolder();
+      // Initialize with default fallback directory
+      final appDir = await getApplicationDocumentsDirectory();
+      _exportPath = '${appDir.path}/Image Crop Exports';
+      
+      // Create default directory
+      final defaultDir = Directory(_exportPath!);
+      if (!await defaultDir.exists()) {
+        await defaultDir.create(recursive: true);
       }
+      
+      print('Default export folder initialized at: $_exportPath');
     } catch (e) {
       print('Error initializing export folder: $e');
+      // Set absolute fallback
+      final appDir = await getApplicationDocumentsDirectory();
+      _exportPath = appDir.path;
     }
   }
 
-  Future<void> _createExportFolder() async {
+  Future<void> _selectSaveDirectory() async {
     try {
-      Directory? externalDir;
-      if (Platform.isAndroid) {
-        // Try to get DCIM directory first, fallback to Pictures
-        final List<Directory?> dirs = [
-          Directory('/storage/emulated/0/DCIM/Image Crop Exports'),
-          Directory('/storage/emulated/0/Pictures/Image Crop Exports'),
-        ];
+      final result = await FilePicker.platform.getDirectoryPath(
+        dialogTitle: 'Select Save Directory',
+        lockParentWindow: true,
+      );
+      
+      if (result != null) {
+        setState(() {
+          _customSaveDirectory = result;
+        });
         
-        for (Directory? dir in dirs) {
-          if (dir != null) {
-            try {
-              if (!await dir.exists()) {
-                await dir.create(recursive: true);
-              }
-              // Test write access
-              final testFile = File('${dir.path}/.test');
-              await testFile.writeAsString('test');
-              await testFile.delete();
-              
-              externalDir = dir;
-              break;
-            } catch (e) {
-              print('Cannot access ${dir.path}: $e');
-              continue;
-            }
-          }
-        }
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Save directory set: ${result.split('/').last}'),
+            backgroundColor: const Color(0xFF00D4FF),
+          ),
+        );
       }
-      
-      if (externalDir == null) {
-        // Fallback to app directory
-        final appDir = await getApplicationDocumentsDirectory();
-        externalDir = Directory('${appDir.path}/Image Crop Exports');
-        if (!await externalDir.exists()) {
-          await externalDir.create(recursive: true);
-        }
-      }
-      
-      _exportPath = externalDir.path;
-      print('Export folder created/verified at: $_exportPath');
     } catch (e) {
-      print('Error creating export folder: $e');
-      // Set fallback path
-      final appDir = await getApplicationDocumentsDirectory();
-      _exportPath = '${appDir.path}/Image Crop Exports';
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error selecting directory: $e'),
+          backgroundColor: Colors.red,
+        ),
+      );
     }
   }
 
@@ -276,12 +266,25 @@ class _ImageCropperHomeState extends State<ImageCropperHome> {
   }
 
   Future<void> _exportImage() async {
-    if (_croppedImage == null || _exportPath == null) return;
+    if (_croppedImage == null) return;
 
     try {
+      // Use custom directory if selected, otherwise use default
+      final saveDirectory = _customSaveDirectory ?? _exportPath;
+      
+      if (saveDirectory == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Error: No save directory available'),
+            backgroundColor: Colors.red,
+          ),
+        );
+        return;
+      }
+      
       final timestamp = DateTime.now().millisecondsSinceEpoch;
       final fileName = 'cropped_${_selectedShape.name}_$timestamp.png';
-      final exportFile = File('$_exportPath/$fileName');
+      final exportFile = File('$saveDirectory/$fileName');
       
       await _croppedImage!.copy(exportFile.path);
       
@@ -320,7 +323,7 @@ class _ImageCropperHomeState extends State<ImageCropperHome> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Image Cropper Mobile V1.0.2'),
+        title: const Text('Image Cropper Mobile V1.0.3'),
         elevation: 2,
       ),
       body: SingleChildScrollView(
@@ -348,7 +351,7 @@ class _ImageCropperHomeState extends State<ImageCropperHome> {
                       ),
                     ),
                     const Text(
-                      'V1.0.2 - HeavenlyCodingPalace',
+                      'V1.0.3 - HeavenlyCodingPalace',
                       style: TextStyle(
                         fontSize: 14,
                         color: Color(0xFF00D4FF),
@@ -369,6 +372,23 @@ class _ImageCropperHomeState extends State<ImageCropperHome> {
                 padding: const EdgeInsets.all(16),
                 backgroundColor: const Color(0xFF00D4FF),
                 foregroundColor: Colors.black,
+              ),
+            ),
+            const SizedBox(height: 12),
+            
+            // Save Directory Selection
+            OutlinedButton.icon(
+              onPressed: _selectSaveDirectory,
+              icon: const Icon(Icons.folder_outlined),
+              label: Text(
+                _customSaveDirectory != null 
+                  ? 'Save to: ${_customSaveDirectory!.split('/').last}'
+                  : 'Choose Save Directory (Optional)',
+              ),
+              style: OutlinedButton.styleFrom(
+                padding: const EdgeInsets.all(16),
+                foregroundColor: const Color(0xFF00D4FF),
+                side: const BorderSide(color: Color(0xFF00D4FF)),
               ),
             ),
             const SizedBox(height: 20),
