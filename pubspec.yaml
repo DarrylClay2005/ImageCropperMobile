@@ -11,107 +11,39 @@ dependencies:
   flutter:
     sdk: flutter
   
-  # UI Components & Icons
-  cupertino_icons: ^1.0.8
-  material_symbols_icons: ^4.2762.0
-  google_fonts: ^6.2.1
+  # Core UI
+  cupertino_icons: ^1.0.0
+  google_fonts: ^6.0.0
   
-  # State Management (Modern)
-  flutter_bloc: ^8.1.6
-  bloc: ^8.1.4
-  equatable: ^2.0.5
-  hydrated_bloc: ^9.1.5
+  # State Management
+  flutter_bloc: ^8.1.0
+  bloc: ^8.1.0
+  equatable: ^2.0.0
   
-  # Image Processing & Computer Vision
-  image_picker: ^1.1.2
-  image: ^4.3.0
-  flutter_image_compress: ^2.4.1
-  image_cropper: ^8.0.2
-  camera: ^0.11.0+2
-  
-  # Advanced Image Features
-  photo_manager: ^3.5.0
-  image_gallery_saver: ^2.0.3
-  crop_your_image: ^1.1.0
+  # Image Processing
+  image_picker: ^1.0.0
+  image: ^4.0.0
   
   # File Handling
-  path_provider: ^2.1.4
-  permission_handler: ^11.3.1
-  file_picker: ^8.1.2
+  path_provider: ^2.0.0
+  permission_handler: ^11.0.0
   
-  # UI Enhancements & Animations
-  flutter_animate: ^4.5.0
-  shimmer: ^3.0.0
-  lottie: ^3.1.2
-  flutter_staggered_animations: ^1.1.1
-  smooth_page_indicator: ^1.2.0+3
-  
-  # Storage & Caching
-  shared_preferences: ^2.3.2
-  hive: ^2.2.3
-  hive_flutter: ^1.1.0
-  cached_network_image: ^3.4.1
-  
-  # Platform Integration & Utils
-  device_info_plus: ^10.1.2
-  package_info_plus: ^8.0.2
-  url_launcher: ^6.3.0
-  share_plus: ^10.0.2
+  # Animations
+  flutter_animate: ^4.0.0
   
   # Network & API
-  dio: ^5.7.0
-  connectivity_plus: ^6.0.5
+  dio: ^5.0.0
   
-  # Background Processing
-  workmanager: ^0.5.2
-  
-  # Dependency Injection
-  get_it: ^8.0.0
-  
-  # Localization
-  flutter_localizations:
-    sdk: flutter
-  intl: ^0.19.0
-  
-  # Analytics & Crash Reporting
-  firebase_core: ^3.6.0
-  firebase_analytics: ^11.3.3
-  firebase_crashlytics: ^4.1.3
+  # Storage
+  shared_preferences: ^2.0.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^4.0.0
-  flutter_launcher_icons: ^0.14.1
-  change_app_package_name: ^1.3.0
-  build_runner: ^2.4.13
-  hive_generator: ^2.0.1
-  json_serializable: ^6.8.0
-  json_annotation: ^4.9.0
-  bloc_test: ^9.1.7
-  mockito: ^5.4.4
-  integration_test:
-    sdk: flutter
 
-flutter_launcher_icons:
-  android: "launcher_icon"
-  ios: false
-  image_path: "assets/images/app_icon.png"
-  min_sdk_android: 21
-  adaptive_icon_background: "#000000"
-  adaptive_icon_foreground: "assets/images/app_icon.png"
-  
 flutter:
   uses-material-design: true
-  generate: true
   
   assets:
     - assets/images/
-    - assets/animations/
-    - assets/icons/
-    - assets/templates/
-  
-  fonts:
-    - family: CustomIcons
-      fonts:
-        - asset: assets/fonts/custom_icons.ttf

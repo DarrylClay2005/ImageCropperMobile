@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/blocs/image_cropper/image_cropper_bloc.dart';
+import '../../../../core/models/crop_shape.dart';
 import '../../../../core/theme/app_theme.dart';
 
 class ImagePreviewWidget extends StatelessWidget {

@@ -1,16 +1,6 @@
-import 'package:get_it/get_it.dart';
-import 'package:hive/hive.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-// BLoCs
-import '../blocs/theme/theme_bloc.dart';
-import '../blocs/image_cropper/image_cropper_bloc.dart';
-import '../blocs/image_upscaler/image_upscaler_bloc.dart';
-
 // Services
-import '../storage/storage_service.dart';
-import '../storage/cache_service.dart';
-import '../analytics/analytics_service.dart';
 import 'image_upscaler_service.dart';
 
 class SimpleServiceLocator {
@@ -19,58 +9,32 @@ class SimpleServiceLocator {
 
   SimpleServiceLocator._internal();
 
-  final GetIt _getIt = GetIt.instance;
+  SharedPreferences? _sharedPreferences;
+  ImageUpscalerService? _upscalerService;
 
-  T call<T extends Object>() => _getIt<T>();
+  T call<T extends Object>() {
+    if (T == SharedPreferences) {
+      return _sharedPreferences as T;
+    } else if (T == ImageUpscalerService) {
+      return _upscalerService as T;
+    }
+    throw Exception('Service not registered: $T');
+  }
 
   Future<void> init() async {
-    // External dependencies
-    final sharedPreferences = await SharedPreferences.getInstance();
-    final hiveBox = await Hive.openBox('app_storage');
+    // Initialize SharedPreferences
+    try {
+      _sharedPreferences = await SharedPreferences.getInstance();
+    } catch (e) {
+      print('Failed to initialize SharedPreferences: $e');
+    }
 
-    _getIt.registerSingleton<SharedPreferences>(sharedPreferences);
-    _getIt.registerSingleton<Box>(hiveBox);
-
-    // Core services
-    _getIt.registerLazySingleton<StorageService>(
-      () => StorageServiceImpl(sharedPreferences),
-    );
-
-    _getIt.registerLazySingleton<CacheService>(
-      () => CacheServiceImpl(hiveBox),
-    );
-
-    _getIt.registerLazySingleton<AnalyticsService>(
-      () => AnalyticsServiceImpl(),
-    );
-
-    _getIt.registerLazySingleton<ImageUpscalerService>(
-      () => ImageUpscalerServiceImpl(),
-    );
-
-    // BLoCs
-    _getIt.registerFactory<ThemeBloc>(
-      () => ThemeBloc(_getIt<StorageService>()),
-    );
-
-    _getIt.registerFactory<ImageCropperBloc>(
-      () => ImageCropperBloc(
-        pickImageUsecase: null, // Mock implementation
-        cropImageUsecase: null, // Mock implementation
-        saveImageUsecase: null, // Mock implementation
-        analyticsService: _getIt<AnalyticsService>(),
-      ),
-    );
-
-    _getIt.registerFactory<ImageUpscalerBloc>(
-      () => ImageUpscalerBloc(
-        upscalerService: _getIt<ImageUpscalerService>(),
-        analyticsService: _getIt<AnalyticsService>(),
-      ),
-    );
+    // Initialize ImageUpscalerService
+    _upscalerService = ImageUpscalerServiceImpl();
   }
 
   void reset() {
-    _getIt.reset();
+    _sharedPreferences = null;
+    _upscalerService = null;
   }
 }

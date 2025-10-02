@@ -3,20 +3,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../services/image_upscaler_service.dart';
-import '../../analytics/analytics_service.dart';
 
 part 'image_upscaler_event.dart';
 part 'image_upscaler_state.dart';
 
 class ImageUpscalerBloc extends Bloc<ImageUpscalerEvent, ImageUpscalerState> {
   final ImageUpscalerService _upscalerService;
-  final AnalyticsService _analyticsService;
 
   ImageUpscalerBloc({
     required ImageUpscalerService upscalerService,
-    required AnalyticsService analyticsService,
   })  : _upscalerService = upscalerService,
-        _analyticsService = analyticsService,
         super(const ImageUpscalerState()) {
     on<UpscaleImageEvent>(_onUpscaleImage);
     on<UpdateUpscaleProgressEvent>(_onUpdateProgress);
@@ -37,10 +33,6 @@ class ImageUpscalerBloc extends Bloc<ImageUpscalerEvent, ImageUpscalerState> {
     ));
 
     try {
-      await _analyticsService.logEvent('upscale_started', {
-        'scale_factor': event.scaleFactor,
-        'enhance_quality': event.enhanceQuality,
-      });
 
       final result = await _upscalerService.upscaleImage(
         imageFile: event.imageFile,
@@ -59,11 +51,6 @@ class ImageUpscalerBloc extends Bloc<ImageUpscalerEvent, ImageUpscalerState> {
           metadata: result.metadata,
         ));
 
-        await _analyticsService.logEvent('upscale_success', {
-          'scale_factor': event.scaleFactor,
-          'file_size_mb': result.metadata?['original_size'],
-          'processing_time': result.metadata?['processing_time'],
-        });
       } else {
         emit(state.copyWith(
           status: UpscaleStatus.error,
@@ -71,7 +58,6 @@ class ImageUpscalerBloc extends Bloc<ImageUpscalerEvent, ImageUpscalerState> {
           progress: 0.0,
         ));
 
-        await _analyticsService.logError('upscale_error', result.errorMessage ?? 'Unknown error');
       }
     } catch (error) {
       emit(state.copyWith(
@@ -80,7 +66,6 @@ class ImageUpscalerBloc extends Bloc<ImageUpscalerEvent, ImageUpscalerState> {
         progress: 0.0,
       ));
 
-      await _analyticsService.logError('upscale_exception', error.toString());
     }
   }
 
@@ -104,7 +89,6 @@ class ImageUpscalerBloc extends Bloc<ImageUpscalerEvent, ImageUpscalerState> {
 
   void _onResetUpscaler(ResetUpscalerEvent event, Emitter<ImageUpscalerState> emit) {
     emit(const ImageUpscalerState());
-    _analyticsService.logEvent('upscaler_reset', {});
   }
 
   void _onValidateApiKey(ValidateApiKeyEvent event, Emitter<ImageUpscalerState> emit) async {

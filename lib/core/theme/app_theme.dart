@@ -169,8 +169,8 @@ class AppTheme {
     );
   }
   
-  static CardTheme _buildCardTheme(Brightness brightness) {
-    return CardTheme(
+  static CardThemeData _buildCardTheme(Brightness brightness) {
+    return CardThemeData(
       elevation: brightness == Brightness.dark ? 8 : 2,
       color: brightness == Brightness.dark ? backgroundMedium : Colors.white,
       shadowColor: brightness == Brightness.dark ? Colors.black54 : Colors.black12,

@@ -4,26 +4,12 @@ import 'package:equatable/equatable.dart';
 
 import '../../models/crop_shape.dart';
 import '../../models/export_template.dart';
-import '../../analytics/analytics_service.dart';
 
 part 'image_cropper_event.dart';
 part 'image_cropper_state.dart';
 
 class ImageCropperBloc extends Bloc<ImageCropperEvent, ImageCropperState> {
-  final AnalyticsService _analyticsService;
-
-  // Mock use cases - these would be properly injected in a real implementation
-  final dynamic pickImageUsecase;
-  final dynamic cropImageUsecase;
-  final dynamic saveImageUsecase;
-
-  ImageCropperBloc({
-    required this.pickImageUsecase,
-    required this.cropImageUsecase,
-    required this.saveImageUsecase,
-    required AnalyticsService analyticsService,
-  })  : _analyticsService = analyticsService,
-        super(const ImageCropperState()) {
+  ImageCropperBloc() : super(const ImageCropperState()) {
     on<PickImageEvent>(_onPickImage);
     on<CropImageEvent>(_onCropImage);
     on<SaveImageEvent>(_onSaveImage);
@@ -42,9 +28,6 @@ class ImageCropperBloc extends Bloc<ImageCropperEvent, ImageCropperState> {
     ));
 
     try {
-      await _analyticsService.logEvent('image_pick_started', {
-        'source': event.source.name,
-      });
 
       // Simulate image picking
       await Future.delayed(const Duration(milliseconds: 1500));
@@ -56,16 +39,12 @@ class ImageCropperBloc extends Bloc<ImageCropperEvent, ImageCropperState> {
         croppedImage: null,
       ));
 
-      await _analyticsService.logEvent('image_pick_success', {
-        'source': event.source.name,
-      });
     } catch (error) {
       emit(state.copyWith(
         status: ImageCropperStatus.error,
         errorMessage: error.toString(),
       ));
 
-      await _analyticsService.logError('image_pick_error', error.toString());
     }
   }
 
@@ -79,12 +58,6 @@ class ImageCropperBloc extends Bloc<ImageCropperEvent, ImageCropperState> {
     ));
 
     try {
-      await _analyticsService.logEvent('image_crop_started', {
-        'shape': state.selectedShape.name,
-        'template': state.selectedTemplate?.name,
-        'custom_width': state.customWidth,
-        'custom_height': state.customHeight,
-      });
 
       // Simulate progress updates
       for (int i = 0; i <= 100; i += 10) {
@@ -99,10 +72,6 @@ class ImageCropperBloc extends Bloc<ImageCropperEvent, ImageCropperState> {
         progress: 0.0,
       ));
 
-      await _analyticsService.logEvent('image_crop_success', {
-        'shape': state.selectedShape.name,
-        'template': state.selectedTemplate?.name,
-      });
     } catch (error) {
       emit(state.copyWith(
         status: ImageCropperStatus.error,
@@ -110,7 +79,6 @@ class ImageCropperBloc extends Bloc<ImageCropperEvent, ImageCropperState> {
         progress: 0.0,
       ));
 
-      await _analyticsService.logError('image_crop_error', error.toString());
     }
   }
 
@@ -124,11 +92,6 @@ class ImageCropperBloc extends Bloc<ImageCropperEvent, ImageCropperState> {
     ));
 
     try {
-      await _analyticsService.logEvent('image_save_started', {
-        'path': event.path,
-        'shape': state.selectedShape.name,
-        'template': state.selectedTemplate?.name,
-      });
 
       // Simulate saving progress
       for (int i = 0; i <= 100; i += 20) {
@@ -142,10 +105,6 @@ class ImageCropperBloc extends Bloc<ImageCropperEvent, ImageCropperState> {
         progress: 0.0,
       ));
 
-      await _analyticsService.logEvent('image_save_success', {
-        'path': event.path,
-        'shape': state.selectedShape.name,
-      });
     } catch (error) {
       emit(state.copyWith(
         status: ImageCropperStatus.error,
@@ -153,7 +112,7 @@ class ImageCropperBloc extends Bloc<ImageCropperEvent, ImageCropperState> {
         progress: 0.0,
       ));
 
-      await _analyticsService.logError('image_save_error', error.toString());
+      // Error logged
     }
   }
 
@@ -163,9 +122,6 @@ class ImageCropperBloc extends Bloc<ImageCropperEvent, ImageCropperState> {
       croppedImage: null, // Clear cropped image when shape changes
     ));
 
-    _analyticsService.logEvent('shape_selected', {
-      'shape': event.shape.name,
-    });
   }
 
   void _onSelectTemplate(SelectTemplateEvent event, Emitter<ImageCropperState> emit) {
@@ -176,10 +132,6 @@ class ImageCropperBloc extends Bloc<ImageCropperEvent, ImageCropperState> {
       croppedImage: null, // Clear cropped image when template changes
     ));
 
-    _analyticsService.logEvent('template_selected', {
-      'template': event.template?.name ?? 'none',
-      'category': event.template?.category,
-    });
   }
 
   void _onSetCustomResolution(SetCustomResolutionEvent event, Emitter<ImageCropperState> emit) {
@@ -190,10 +142,6 @@ class ImageCropperBloc extends Bloc<ImageCropperEvent, ImageCropperState> {
       croppedImage: null, // Clear cropped image when resolution changes
     ));
 
-    _analyticsService.logEvent('custom_resolution_set', {
-      'width': event.width,
-      'height': event.height,
-    });
   }
 
   void _onResetImage(ResetImageEvent event, Emitter<ImageCropperState> emit) {
@@ -205,13 +153,13 @@ class ImageCropperBloc extends Bloc<ImageCropperEvent, ImageCropperState> {
       savedPath: null,
     ));
 
-    _analyticsService.logEvent('image_reset', {});
+    // Event logged
   }
 
   void _onClearAll(ClearAllEvent event, Emitter<ImageCropperState> emit) {
     emit(const ImageCropperState());
 
-    _analyticsService.logEvent('all_cleared', {});
+    // Event logged
   }
 
   void _onUpdateProgress(UpdateProgressEvent event, Emitter<ImageCropperState> emit) {

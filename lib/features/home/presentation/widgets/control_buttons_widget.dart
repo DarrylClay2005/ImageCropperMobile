@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/blocs/image_cropper/image_cropper_bloc.dart';
+import '../../../../core/models/crop_shape.dart';
 import '../../../../core/theme/app_theme.dart';
 
 class ControlButtonsWidget extends StatelessWidget {
@@ -170,10 +171,12 @@ class ControlButtonsWidget extends StatelessWidget {
         ),
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
       ),
-      icon: Icon(
-        icon.icon,
-        color: onPressed != null ? color : Colors.grey,
-        size: 18,
+      icon: IconTheme(
+        data: IconThemeData(
+          color: onPressed != null ? color : Colors.grey,
+          size: 18,
+        ),
+        child: icon,
       ),
       label: Text(
         label,

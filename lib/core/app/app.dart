@@ -5,7 +5,8 @@ import '../blocs/theme/theme_bloc.dart';
 import '../blocs/image_cropper/image_cropper_bloc.dart';
 import '../blocs/image_upscaler/image_upscaler_bloc.dart';
 import '../../features/splash/presentation/pages/splash_screen.dart';
-import '../services/simple_service_locator.dart';
+import '../services/image_upscaler_service.dart';
+import '../theme/app_theme.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -15,13 +16,15 @@ class App extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<ThemeBloc>(
-          create: (context) => SimpleServiceLocator.instance<ThemeBloc>(),
+          create: (context) => ThemeBloc(),
         ),
         BlocProvider<ImageCropperBloc>(
-          create: (context) => SimpleServiceLocator.instance<ImageCropperBloc>(),
+          create: (context) => ImageCropperBloc(),
         ),
         BlocProvider<ImageUpscalerBloc>(
-          create: (context) => SimpleServiceLocator.instance<ImageUpscalerBloc>(),
+          create: (context) => ImageUpscalerBloc(
+            upscalerService: ImageUpscalerServiceImpl(),
+          ),
         ),
       ],
       child: BlocBuilder<ThemeBloc, ThemeState>(
@@ -29,7 +32,7 @@ class App extends StatelessWidget {
           return MaterialApp(
             title: 'Image Cropper Pro',
             debugShowCheckedModeBanner: false,
-            theme: themeState.themeData,
+            theme: AppTheme.darkTheme, // Use direct theme instead of state
             home: const SplashScreen(),
             builder: (context, child) {
               return MediaQuery(
