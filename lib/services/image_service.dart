@@ -5,7 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:image/image.dart' as img;
 import 'package:path_provider/path_provider.dart';
 import 'dart:math' as math;
-import '../models/crop_shape.dart';
+import '../core/models/crop_shape.dart';
 
 class ImageService extends ChangeNotifier {
   File? _originalImage;
@@ -58,6 +58,19 @@ class ImageService extends ChangeNotifier {
   // Set selected crop shape
   void setShape(CropShape shape) {
     _selectedShape = shape;
+    notifyListeners();
+  }
+
+  // Set original image (for use with BLoC)
+  void setOriginalImage(File? image) {
+    _originalImage = image;
+    _croppedImage = null; // Reset cropped image
+    notifyListeners();
+  }
+
+  // Set cropped image (for use with BLoC)
+  void setCroppedImage(File? image) {
+    _croppedImage = image;
     notifyListeners();
   }
 
@@ -115,6 +128,9 @@ class ImageService extends ChangeNotifier {
     switch (shape) {
       case CropShape.circle:
         return _cropCircle(squareImage);
+      case CropShape.rectangle:
+        // Rectangle crop - maintain aspect ratio but crop to rectangle
+        return _cropRectangle(squareImage);
       case CropShape.square:
         return squareImage;
       case CropShape.heart:
@@ -125,6 +141,14 @@ class ImageService extends ChangeNotifier {
         return _cropHexagon(squareImage);
       case CropShape.diamond:
         return _cropDiamond(squareImage);
+      case CropShape.oval:
+        return _cropCircle(squareImage); // Use circle for oval
+      case CropShape.triangle:
+        return _cropTriangle(squareImage);
+      case CropShape.pentagon:
+        return _cropPentagon(squareImage);
+      case CropShape.custom:
+        return squareImage; // Default to square for custom
     }
   }
 
@@ -209,6 +233,46 @@ class ImageService extends ChangeNotifier {
     return image;
   }
 
+  // Rectangle crop
+  img.Image _cropRectangle(img.Image image) {
+    // For rectangle, create 16:9 aspect ratio crop
+    final width = image.width;
+    final height = (width * 9 / 16).round();
+    final top = (image.height - height) ~/ 2;
+    
+    return img.copyCrop(image, x: 0, y: top, width: width, height: height);
+  }
+
+  // Triangle crop
+  img.Image _cropTriangle(img.Image image) {
+    final size = image.width;
+    final center = size / 2;
+    
+    for (int y = 0; y < size; y++) {
+      for (int x = 0; x < size; x++) {
+        if (!_isInsideTriangle(x - center, y - center, size)) {
+          image.setPixel(x, y, img.ColorRgba8(0, 0, 0, 0));
+        }
+      }
+    }
+    return image;
+  }
+
+  // Pentagon crop
+  img.Image _cropPentagon(img.Image image) {
+    final size = image.width;
+    final center = size / 2;
+    
+    for (int y = 0; y < size; y++) {
+      for (int x = 0; x < size; x++) {
+        if (!_isInsidePentagon(x - center, y - center, size)) {
+          image.setPixel(x, y, img.ColorRgba8(0, 0, 0, 0));
+        }
+      }
+    }
+    return image;
+  }
+
   // Helper function for heart shape
   bool _isInsideHeart(double x, double y, int size) {
     final scale = size / 400.0; // Scale factor
@@ -249,6 +313,37 @@ class ImageService extends ChangeNotifier {
     
     return dx <= radius && 
            (dx * 0.866025 + dy * 0.5) <= radius; // sqrt(3)/2 ≈ 0.866025
+  }
+
+  // Helper function for triangle shape
+  bool _isInsideTriangle(double x, double y, int size) {
+    final height = size * 0.4;
+    final base = size * 0.35;
+    
+    // Equilateral triangle pointing up
+    if (y > height) return false; // Above triangle
+    
+    // Check if point is inside triangle using barycentric coordinates
+    final slope = height / base;
+    return (y >= -height * 0.5) && 
+           (x >= -base + y / slope) && 
+           (x <= base - y / slope);
+  }
+
+  // Helper function for pentagon shape
+  bool _isInsidePentagon(double x, double y, int size) {
+    final radius = size * 0.35;
+    final angle = math.atan2(y, x);
+    final distance = math.sqrt(x * x + y * y);
+    
+    // Create 5-sided polygon
+    final pentagonAngle = (angle + math.pi) / (2 * math.pi) * 5;
+    final pentagonIndex = pentagonAngle.floor() % 5;
+    
+    // Simple approximation for pentagon
+    final maxRadius = radius * (0.9 + 0.1 * math.cos(pentagonAngle * 2 * math.pi));
+    
+    return distance <= maxRadius;
   }
 
   // Save cropped image to gallery/external storage

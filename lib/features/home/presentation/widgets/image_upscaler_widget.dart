@@ -402,7 +402,7 @@ class _ImageUpscalerWidgetState extends State<ImageUpscalerWidget> {
     
     return Row(
       children: [
-        if (canUpscale) ...[
+        if (hasSourceImage && !upscalerState.hasUpscaledImage) ...[
           Expanded(
             child: Container(
               height: 48,
@@ -413,7 +413,7 @@ class _ImageUpscalerWidgetState extends State<ImageUpscalerWidget> {
                 borderRadius: BorderRadius.circular(12),
               ),
               child: ElevatedButton.icon(
-                onPressed: () => _startUpscale(cropperState),
+                onPressed: canUpscale ? () => _startUpscale(cropperState) : null,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.transparent,
                   shadowColor: Colors.transparent,
@@ -423,7 +423,7 @@ class _ImageUpscalerWidgetState extends State<ImageUpscalerWidget> {
                 ),
                 icon: const Icon(Icons.auto_fix_high_rounded, color: Colors.white),
                 label: Text(
-                  'Upscale ${_selectedScaleFactor}x',
+                  upscalerState.isLoading ? 'Processing...' : 'Upscale with AI ${_selectedScaleFactor}x',
                   style: GoogleFonts.inter(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
@@ -459,33 +459,23 @@ class _ImageUpscalerWidgetState extends State<ImageUpscalerWidget> {
               ),
             ),
           ),
-        ] else ...[
+        ] else if (!hasSourceImage) ...[
           Expanded(
-            child: OutlinedButton.icon(
-              onPressed: hasSourceImage 
-                  ? () => context.read<ImageUpscalerBloc>().add(const ValidateApiKeyEvent())
-                  : null,
-              style: OutlinedButton.styleFrom(
-                side: BorderSide(
-                  color: hasSourceImage ? AppTheme.accentCyan : Colors.grey,
-                  width: 2,
-                ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                padding: const EdgeInsets.symmetric(vertical: 12),
+            child: Container(
+              height: 48,
+              decoration: BoxDecoration(
+                color: Colors.grey.withOpacity(0.2),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: Colors.grey.withOpacity(0.3)),
               ),
-              icon: Icon(
-                Icons.verified_rounded,
-                color: hasSourceImage ? AppTheme.accentCyan : Colors.grey,
-                size: 18,
-              ),
-              label: Text(
-                'Test API',
-                style: GoogleFonts.inter(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w600,
-                  color: hasSourceImage ? AppTheme.accentCyan : Colors.grey,
+              child: Center(
+                child: Text(
+                  'Select an image to upscale',
+                  style: GoogleFonts.inter(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.grey,
+                  ),
                 ),
               ),
             ),

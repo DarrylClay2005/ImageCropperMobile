@@ -217,21 +217,21 @@ class ControlButtonsWidget extends StatelessWidget {
                   context: context,
                   icon: Icons.photo_library_rounded,
                   label: 'Gallery',
-                  source: ImageSource.gallery,
+                  source: AppImageSource.gallery,
                 ),
                 const SizedBox(width: 16),
                 _buildSourceOption(
                   context: context,
                   icon: Icons.camera_alt_rounded,
                   label: 'Camera',
-                  source: ImageSource.camera,
+                  source: AppImageSource.camera,
                 ),
                 const SizedBox(width: 16),
                 _buildSourceOption(
                   context: context,
                   icon: Icons.folder_rounded,
                   label: 'Files',
-                  source: ImageSource.files,
+                  source: AppImageSource.files,
                 ),
               ],
             ),
@@ -247,7 +247,7 @@ class ControlButtonsWidget extends StatelessWidget {
     required BuildContext context,
     required IconData icon,
     required String label,
-    required ImageSource source,
+    required AppImageSource source,
   }) {
     return Expanded(
       child: GestureDetector(

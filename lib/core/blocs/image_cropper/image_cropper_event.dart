@@ -7,10 +7,10 @@ abstract class ImageCropperEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-enum ImageSource { gallery, camera, files }
+enum AppImageSource { gallery, camera, files }
 
 class PickImageEvent extends ImageCropperEvent {
-  final ImageSource source;
+  final AppImageSource source;
 
   const PickImageEvent(this.source);
 

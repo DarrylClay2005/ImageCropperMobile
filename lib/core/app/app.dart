@@ -6,6 +6,8 @@ import '../blocs/image_cropper/image_cropper_bloc.dart';
 import '../blocs/image_upscaler/image_upscaler_bloc.dart';
 import '../../features/splash/presentation/pages/splash_screen.dart';
 import '../services/image_upscaler_service.dart';
+import '../services/simple_service_locator.dart';
+import '../../services/image_service.dart';
 import '../theme/app_theme.dart';
 
 class App extends StatelessWidget {
@@ -19,7 +21,9 @@ class App extends StatelessWidget {
           create: (context) => ThemeBloc(),
         ),
         BlocProvider<ImageCropperBloc>(
-          create: (context) => ImageCropperBloc(),
+          create: (context) => ImageCropperBloc(
+            SimpleServiceLocator.instance<ImageService>(),
+          ),
         ),
         BlocProvider<ImageUpscalerBloc>(
           create: (context) => ImageUpscalerBloc(
